@@ -1,7 +1,7 @@
 {
   "name": "openethereum.dnp.dappnode.eth",
-  "version": "0.1.0",
-  "upstreamVersion": "v2.7.2",
+  "version": "0.1.2",
+  "upstreamVersion": "v3.0.0",
   "shortDescription": "openethereum is the official Rust implementation of the Ethereum protocol.",
   "description": "Ethereum is a global, open-source platform for decentralized applications where you can write code that controls digital value, runs exactly as programmed, and is accessible anywhere in the world.",
   "type": "library",
@@ -9,7 +9,7 @@
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "contributors": [
     "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)"
-  ],  
+  ],
   "categories": [
     "Blockchain"
   ],
