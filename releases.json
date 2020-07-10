@@ -1,0 +1,18 @@
+{
+  "0.1.0": {
+    "hash": "/ipfs/QmSdUekSdr5z5oceYnJGfLnSiUuuUkipFdNAC6MgUwATnA",
+    "type": "directory",
+    "uploadedTo": {
+      "dappnode": "Tue, 14 Apr 2020 16:24:44 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=openethereum.dnp.dappnode.eth&v=0.1.0&h=%2Fipfs%2FQmSdUekSdr5z5oceYnJGfLnSiUuuUkipFdNAC6MgUwATnA&d=0xF35960302a07022aBa880DFFaEC2Fdd64d5BF1c1"
+  },
+  "0.1.1": {
+    "hash": "/ipfs/QmdPFeN87QkNC3jKkJvrnJZ2ezBMmx6VRadJeeZcv43TAj",
+    "type": "directory",
+    "uploadedTo": {
+      "remote": "Tue, 12 May 2020 08:14:39 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=openethereum.dnp.dappnode.eth&v=0.1.1&h=%2Fipfs%2FQmdPFeN87QkNC3jKkJvrnJZ2ezBMmx6VRadJeeZcv43TAj"
+  }
+}
