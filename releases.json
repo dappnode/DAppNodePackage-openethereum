@@ -14,5 +14,24 @@
       "remote": "Tue, 12 May 2020 08:14:39 GMT"
     },
     "link": "http://my.dappnode/#/sdk/publish/r=openethereum.dnp.dappnode.eth&v=0.1.1&h=%2Fipfs%2FQmdPFeN87QkNC3jKkJvrnJZ2ezBMmx6VRadJeeZcv43TAj"
+  },
+  "0.1.2": {
+    "hash": "/ipfs/Qmd3pVCAHPxWFUDGpN6BmPXTkeNJXuhGpHvioAwgPo61NG",
+    "uploadedTo": {
+      "dappnode": "Thu, 16 Jul 2020 07:24:35 GMT"
+    }
+  },
+  "0.2.0": {
+    "hash": "/ipfs/QmaP1D2euDEpGi4v6Y9hh4dbAqfgCPFE4K1zW8q9EXj4YT",
+    "uploadedTo": {
+      "remote": "Wed, 23 Sep 2020 20:31:43 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=openethereum.dnp.dappnode.eth&v=0.2.0&h=%2Fipfs%2FQmfUq1YrnoYbmpHoG3U3TR7UdZkBRNKM4bh2AKmzUCD8Uw"
+  },
+  "0.3.0": {
+    "hash": "/ipfs/QmWidD1no3Ya7SuQrWEF7ERmdTcGM13HhtQozqdc5gNHba",
+    "uploadedTo": {
+      "dappnode": "Tue, 13 Oct 2020 21:29:06 GMT"
+    }
   }
 }

@@ -2,7 +2,7 @@ version: '3.4'
 services:
   openethereum.dnp.dappnode.eth:
     build: ./build
-    image: 'openethereum.dnp.dappnode.eth:0.1.2'
+    image: 'openethereum.dnp.dappnode.eth:0.3.0'
     restart: always
     volumes:
       - 'data:/root/.local/share/openethereum'

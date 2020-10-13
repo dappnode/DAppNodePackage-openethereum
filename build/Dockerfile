@@ -1,14 +1,65 @@
-FROM alpine
+FROM --platform=amd64 ubuntu:xenial as builder
+WORKDIR /build
 
-RUN apk --no-cache add \
-    libstdc++ \ 
-    eudev-libs \
-    libgcc \
-    llvm \
-    bash \
-    clang
+ARG TARGETARCH
 
+# install aarch64(armv8) dependencies and tools
+RUN dpkg --add-architecture arm64
+RUN echo '# source urls for arm64 \n\
+	deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ xenial main \n\
+	deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ xenial main \n\
+	deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ xenial-updates main \n\
+	deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ xenial-updates main \n\
+	deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ xenial-security main \n\
+	deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ xenial-security main \n # end arm64 section' >> /etc/apt/sources.list &&\
+	sed -r 's/deb h/deb \[arch=amd64\] h/g' /etc/apt/sources.list > /tmp/sources-tmp.list && \
+	cp /tmp/sources-tmp.list /etc/apt/sources.list&& \
+	sed -r 's/deb-src h/deb-src \[arch=amd64\] h/g' /etc/apt/sources.list > /tmp/sources-tmp.list&&cat /etc/apt/sources.list &&\
+	cp /tmp/sources-tmp.list /etc/apt/sources.list&& echo "next"&&cat /etc/apt/sources.list
 
-COPY --from=openethereum/openethereum:v3.0.0 /home/openethereum/openethereum /usr/local/bin/openethereum
-RUN chmod +x /usr/local/bin/openethereum
-ENTRYPOINT [ "sh", "-c", "exec openethereum --jsonrpc-port 8545 --jsonrpc-interface all --jsonrpc-hosts all --jsonrpc-cors all --ws-interface 0.0.0.0 --ws-port 8546 --ws-origins all --ws-hosts all --ws-max-connections 1000 ${EXTRA_OPTS}"]
+# install tools and dependencies
+RUN apt-get -y update && \
+	apt-get upgrade -y && \
+	apt-get install -y --no-install-recommends \
+		curl make cmake file ca-certificates  \
+		g++ gcc-aarch64-linux-gnu g++-aarch64-linux-gnu \
+		libc6-dev-arm64-cross binutils-aarch64-linux-gnu \
+		libudev-dev libudev-dev:arm64 git \
+		&& \
+	apt-get clean
+
+# install rustup
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y 
+
+# rustup directory
+ENV PATH /root/.cargo/bin:$PATH
+
+# show backtraces
+ENV RUST_BACKTRACE 1
+
+# show tools
+RUN rustc -vV && cargo -V
+
+# build parity
+RUN git clone -b "master" https://github.com/openethereum/backport-3.1 /openethereum
+RUN cd /openethereum && \
+	mkdir -p .cargo && \
+	echo '[target.aarch64-unknown-linux-gnu]\n\
+	linker = "aarch64-linux-gnu-gcc"\n'\
+	>>.cargo/config && \
+	cat .cargo/config	
+	
+RUN	cd /openethereum && \
+	if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \
+ 	rustup target add ${ARCH}-unknown-linux-gnu && \
+	cargo build --target ${ARCH}-unknown-linux-gnu --release --verbose
+
+RUN if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \	
+	/usr/bin/${ARCH}-linux-gnu-strip /openethereum/target/${ARCH}-unknown-linux-gnu/release/parity && \
+	cp /openethereum/target/${ARCH}-unknown-linux-gnu/release/parity /usr/local/bin/parity
+
+FROM debian:buster-slim
+
+COPY --from=builder /usr/local/bin/parity /usr/local/bin/parity
+
+ENTRYPOINT [ "/usr/local/bin/parity" ]
