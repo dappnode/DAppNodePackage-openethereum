@@ -2,10 +2,10 @@ version: '3.4'
 services:
   openethereum.dnp.dappnode.eth:
     build: ./build
-    image: 'openethereum.dnp.dappnode.eth:0.1.0'
+    image: 'openethereum.dnp.dappnode.eth:0.3.0'
     restart: always
     volumes:
-      - 'data:/root/.local/share/io.parity.ethereum'
+      - 'data:/root/.local/share/openethereum'
     environment:
       - EXTRA_OPTS=--warp-barrier 9850000
     ports:
