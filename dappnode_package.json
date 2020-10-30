@@ -1,6 +1,6 @@
 {
   "name": "openethereum.dnp.dappnode.eth",
-  "version": "0.3.0",
+  "version": "0.2.0",
   "upstreamVersion": "v3.1.0-rc.1",
   "shortDescription": "openethereum is the official Rust implementation of the Ethereum protocol.",
   "description": "Ethereum is a global, open-source platform for decentralized applications where you can write code that controls digital value, runs exactly as programmed, and is accessible anywhere in the world.",
@@ -13,7 +13,10 @@
   "categories": [
     "Blockchain"
   ],
-  "architectures": ["linux/amd64", "linux/arm64"],
+  "architectures": [
+    "linux/amd64",
+    "linux/arm64"
+  ],
   "license": "GLP-3.0",
   "links": {
     "endpoint": "http://openethereum.dappnode:8545",
