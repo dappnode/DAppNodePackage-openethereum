@@ -56,10 +56,10 @@ RUN	cd /openethereum && \
 
 RUN if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \	
 	/usr/bin/${ARCH}-linux-gnu-strip /openethereum/target/${ARCH}-unknown-linux-gnu/release/parity && \
-	cp /openethereum/target/${ARCH}-unknown-linux-gnu/release/parity /usr/local/bin/parity
+	cp /openethereum/target/${ARCH}-unknown-linux-gnu/release/parity /usr/local/bin/openethereum
 
 FROM debian:buster-slim
 
-COPY --from=builder /usr/local/bin/parity /usr/local/bin/parity
+COPY --from=builder /usr/local/bin/openethereum /usr/local/bin/openethereum
 
-ENTRYPOINT [ "/usr/local/bin/parity" ]
+ENTRYPOINT [ "sh", "-c", "exec openethereum --jsonrpc-port 8545 --jsonrpc-interface all --jsonrpc-hosts all --jsonrpc-cors all --ws-interface 0.0.0.0 --ws-port 8546 --ws-origins all --ws-hosts all --ws-max-connections 1000 ${EXTRA_OPTS}"]
