@@ -1,15 +1,15 @@
-version: '3.4'
+version: "3.4"
 services:
   openethereum.dnp.dappnode.eth:
     build: ./build
-    image: 'openethereum.dnp.dappnode.eth:0.2.2'
+    image: "openethereum.dnp.dappnode.eth:0.2.3"
     restart: always
     volumes:
-      - 'data:/root/.local/share/openethereum'
+      - "data:/root/.local/share/openethereum"
     environment:
       - EXTRA_OPTS=--warp-barrier 9850000
     ports:
-      - '30303'
+      - "30303"
       - 30303/udp
       - 30304/udp
 volumes:
