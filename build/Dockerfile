@@ -29,7 +29,7 @@ RUN apt-get -y update && \
 	apt-get clean
 
 # install rustup
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y 
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # rustup directory
 ENV PATH /root/.cargo/bin:$PATH
@@ -38,7 +38,7 @@ ENV PATH /root/.cargo/bin:$PATH
 ENV RUST_BACKTRACE 1
 
 # show tools
-RUN rustc -vV && cargo -V
+RUN rustup toolchain install 1.47.0 && rustc -vV && cargo -V
 
 # build parity
 RUN git clone -b "master" https://github.com/openethereum/backport-3.1 /openethereum
