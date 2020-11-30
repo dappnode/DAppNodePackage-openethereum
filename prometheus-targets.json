@@ -1,0 +1,11 @@
+[
+    {
+        "labels": {
+            "package": "openethereum.dnp.dappnode.eth",
+            "service": "openethereum.dappnode"
+        },
+        "targets": [
+            "openethereum.dappnode:3000"
+        ]
+    }
+]

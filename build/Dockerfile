@@ -1,6 +1,7 @@
 FROM --platform=amd64 ubuntu:xenial as builder
 WORKDIR /build
 
+ARG UPSTREAM_VERSION
 ARG TARGETARCH
 
 # install aarch64(armv8) dependencies and tools
@@ -38,10 +39,10 @@ ENV PATH /root/.cargo/bin:$PATH
 ENV RUST_BACKTRACE 1
 
 # show tools
-RUN rustup toolchain install 1.47.0 && rustc -vV && cargo -V
+RUN rustup toolchain install 1.47.0 && rustup default 1.47.0 && rustc -vV && cargo -V
 
 # build parity
-RUN git clone -b "master" https://github.com/openethereum/backport-3.1 /openethereum
+RUN git clone -b ${UPSTREAM_VERSION} https://github.com/openethereum/openethereum /openethereum
 RUN cd /openethereum && \
 	mkdir -p .cargo && \
 	echo '[target.aarch64-unknown-linux-gnu]\n\
@@ -55,11 +56,11 @@ RUN	cd /openethereum && \
 	cargo build --target ${ARCH}-unknown-linux-gnu --release --verbose
 
 RUN if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \	
-	/usr/bin/${ARCH}-linux-gnu-strip /openethereum/target/${ARCH}-unknown-linux-gnu/release/parity && \
-	cp /openethereum/target/${ARCH}-unknown-linux-gnu/release/parity /usr/local/bin/openethereum
+	/usr/bin/${ARCH}-linux-gnu-strip /openethereum/target/${ARCH}-unknown-linux-gnu/release/openethereum && \
+	cp /openethereum/target/${ARCH}-unknown-linux-gnu/release/openethereum /usr/local/bin/openethereum
 
 FROM debian:buster-slim
 
 COPY --from=builder /usr/local/bin/openethereum /usr/local/bin/openethereum
 
-ENTRYPOINT [ "sh", "-c", "exec openethereum --jsonrpc-port 8545 --jsonrpc-interface all --jsonrpc-hosts all --jsonrpc-cors all --ws-interface 0.0.0.0 --ws-port 8546 --ws-origins all --ws-hosts all --ws-max-connections 1000 ${EXTRA_OPTS}"]
+ENTRYPOINT [ "sh", "-c", "exec openethereum --jsonrpc-port 8545 --jsonrpc-interface all --jsonrpc-hosts all --jsonrpc-cors all --ws-interface 0.0.0.0 --ws-port 8546 --ws-origins all --ws-hosts all --ws-max-connections 1000 --metrics --metrics-interface=all ${EXTRA_OPTS}"]
