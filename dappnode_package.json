@@ -10,6 +10,8 @@
   "contributors": [
     "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)"
   ],
+  "upstreamRepo": "openethereum/openethereum",
+  "upstreamArg": "UPSTREAM_VERSION",
   "categories": ["Blockchain"],
   "architectures": ["linux/amd64", "linux/arm64"],
   "license": "GLP-3.0",
