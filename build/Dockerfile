@@ -39,7 +39,7 @@ ENV PATH /root/.cargo/bin:$PATH
 ENV RUST_BACKTRACE 1
 
 # show tools
-RUN rustup toolchain install 1.47.0 && rustup default 1.47.0 && rustc -vV && cargo -V
+RUN rustup toolchain install 1.50.0 && rustup default 1.50.0 && rustc -vV && cargo -V
 
 # build parity
 RUN git clone -b ${UPSTREAM_VERSION} https://github.com/openethereum/openethereum /openethereum
