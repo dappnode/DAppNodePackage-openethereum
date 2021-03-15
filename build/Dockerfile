@@ -53,7 +53,7 @@ RUN cd /openethereum && \
 RUN	cd /openethereum && \
 	if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \
  	rustup target add ${ARCH}-unknown-linux-gnu && \
-	cargo build --target ${ARCH}-unknown-linux-gnu --release --verbose
+	cargo build --release --features final --target ${ARCH}-unknown-linux-gnu --verbose
 
 RUN if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \	
 	/usr/bin/${ARCH}-linux-gnu-strip /openethereum/target/${ARCH}-unknown-linux-gnu/release/openethereum && \
