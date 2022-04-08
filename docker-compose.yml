@@ -4,7 +4,7 @@ services:
     build:
       context: ./build
       args:
-        UPSTREAM_VERSION: v3.3.4
+        UPSTREAM_VERSION: v3.3.5
     image: "openethereum.dnp.dappnode.eth:1.0.1"
     restart: unless-stopped
     volumes:
