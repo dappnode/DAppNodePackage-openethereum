@@ -14,7 +14,7 @@ jobs:
   build-test:
     runs-on: ubuntu-16.04
     name: Build test
-    if: github.event_name != 'push' || github.event_name == 'repository_dispatch'
+    if: github.event_name != 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,12 +23,15 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'  || github.event_name == 'repository_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
       - name: Publish
-        run: npx @dappnode/dappnodesdk publish patch --dappnode_team_preset --timeout 2h
+        run: npx @dappnode/dappnodesdk publish patch --dappnode_team_preset --timeout 1h
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEVELOPER_ADDRESS: "0xf35960302a07022aba880dffaec2fdd64d5bf1c1"
