@@ -22,11 +22,11 @@ RUN echo '# source urls for arm64 \n\
 RUN apt-get -y update && \
 	apt-get upgrade -y && \
 	apt-get install -y --no-install-recommends \
-		curl make cmake file ca-certificates  \
-		g++ gcc-aarch64-linux-gnu g++-aarch64-linux-gnu \
-		libc6-dev-arm64-cross binutils-aarch64-linux-gnu \
-		libudev-dev libudev-dev:arm64 git \
-		&& \
+	curl make cmake file ca-certificates  \
+	g++ gcc-aarch64-linux-gnu g++-aarch64-linux-gnu \
+	libc6-dev-arm64-cross binutils-aarch64-linux-gnu \
+	libudev-dev libudev-dev:arm64 git \
+	&& \
 	apt-get clean
 
 # install rustup
@@ -39,7 +39,7 @@ ENV PATH /root/.cargo/bin:$PATH
 ENV RUST_BACKTRACE 1
 
 # show tools
-RUN rustup toolchain install 1.50.0 && rustup default 1.50.0 && rustc -vV && cargo -V
+RUN rustup toolchain install 1.60.0 && rustup default 1.60.0 && rustc -vV && cargo -V
 
 # build parity
 RUN git clone -b ${UPSTREAM_VERSION} https://github.com/openethereum/openethereum /openethereum
@@ -49,10 +49,10 @@ RUN cd /openethereum && \
 	linker = "aarch64-linux-gnu-gcc"\n'\
 	>>.cargo/config && \
 	cat .cargo/config	
-	
+
 RUN	cd /openethereum && \
 	if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \
- 	rustup target add ${ARCH}-unknown-linux-gnu && \
+	rustup target add ${ARCH}-unknown-linux-gnu && \
 	cargo build --release --features final --target ${ARCH}-unknown-linux-gnu --verbose
 
 RUN if [ "$TARGETARCH" = "arm64" ]; then export ARCH="aarch64"; else export ARCH="x86_64"; fi && \	
