@@ -2,7 +2,7 @@ version: "3.4"
 services:
   openethereum.dnp.dappnode.eth:
     build:
-      context: ./build
+      context: .
       args:
         UPSTREAM_VERSION: v3.3.5
     image: "openethereum.dnp.dappnode.eth:1.0.1"
